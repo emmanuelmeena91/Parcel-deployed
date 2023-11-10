@@ -15,7 +15,7 @@ const LandingPage = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/select" element={<Select />} /> 
-        <Route path="/Parcelpal" element={<Landing />} /> 
+        <Route path="/Parcelpalapp" element={<Landing />} /> 
         <Route path="/" element={<HomePage />} /> 
         
       </Routes>
