@@ -83,16 +83,16 @@ const UserFooter = () => {
         <h3 className="text-2xl font-semibold mb-4">CONNECT WITH US</h3>
         <p>Stay connected with ParcelPal Delivery:</p>
         <div className="flex space-x-4">
-          <a href="#" className="text-2xl">
+        <a href="https://www.facebook.com/" className="text-2xl">
             <i className="fab fa-facebook"></i>
           </a>
-          <a href="#" className="text-2xl">
+          <a href="https://www.x.com/" className="text-2xl">
             <i className="fab fa-twitter"></i>
           </a>
-          <a href="#" className="text-2xl">
+          <a href="https://www.instagram.com/" className="text-2xl">
             <i className="fab fa-instagram"></i>
           </a>
-          <a href="#" className="text-2xl">
+          <a href="https://www.linkedin.com/" className="text-2xl">
             <i className="fab fa-linkedin"></i>
           </a>
         </div>
