@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Details = () => {
   const [parcelDetails, setParcelDetails] = useState(null);
+  const [status, setStatus] = useState("Pending");
   const [loading, setLoading] = useState(true); // Added loading state
   const { id } = useParams();
 
   useEffect(() => {
+    // Fetch parcel details based on the id parameter
     fetch(`https://parcelpalserver.onrender.com/parcels/${id}/`)
       .then((response) => response.json())
       .then((data) => {
         setParcelDetails(data.parcel);
+        setStatus(data.parcel.status);
         setLoading(false); // Set loading to false after data is received
       })
       .catch((error) => {
@@ -21,37 +22,35 @@ const Details = () => {
       });
   }, [id]);
 
-  const handleChangeStatus = async (newStatus) => {
-    try {
-      const response = await fetch(`https://parcelpalserver.onrender.com/parcels/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          id:id,
-          status: newStatus,
-        }),
-      });
-
-      if (response.ok) {
-        toast.success("Parcel canceled successfully")
-      } else {
-        console.error(`Error updating status for parcel ${id}`);
-        toast.error("`Error updating status for parcel`.");
-      }
-    } catch (error) {
-      console.error('Network error:', error);
-    }
+  const handleChangeStatus = (newStatus) => {
+    // Update the status in the database
+    fetch(`https://parcelpalserver.onrender.com/parcels/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ status: newStatus }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the status in the state
+        setStatus(data.parcel.status);
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
-    <div>
-      <header className="bg-gray-900 text-white py-4">
+    <div style={{ 
+      backgroundImage: 'url("https://e0.pxfuel.com/wallpapers/321/742/desktop-wallpaper-request-original-xbox-theme-for-new-dashboard-xboxthemes.jpg")', 
+      backgroundSize: 'cover', 
+      backgroundRepeat: 'no-repeat',
+      height: '100vh' // Set the height to 100% of the viewport height
+    }}>
+      <header className="bg--900 text-white py-4">
         <div className="container mx-auto flex justify-between items-center">
           <div id="branding">
             <h1>
-              <Link to="/dashboard" className="text-4xl font-extrabold text-yellow-500">
+              <Link to="/dashboard" className="text-4xl font-extrabold ">
                 Parcel<span className="text-yellow-500">Pal</span>
               </Link>
             </h1>
@@ -74,7 +73,7 @@ const Details = () => {
         </div>
       </header>
 
-      <div className="bg-yellow-300 py-8">
+      <div className=" py-8">
         <div className="container mx-auto">
           <div className="detailContainer flex justify-center">
             <div className="detailsForm bg-white shadow-lg p-6 w-96">
@@ -126,7 +125,7 @@ const Details = () => {
         </div>
       </div>
 
-      <footer className="bg-gray-900 text-white py-4">
+      <footer className="bg-transparent text-white py-4">
         <div className="container mx-auto text-center">
           <p className="text-yellow-500">
             <span id="trackerText" className="font-semibold">
@@ -136,8 +135,6 @@ const Details = () => {
           </p>
         </div>
       </footer>
-      <ToastContainer />
-
     </div>
   );
 };
