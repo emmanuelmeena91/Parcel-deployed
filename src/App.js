@@ -15,6 +15,7 @@ export default function App() {
         <AppRouter />
         <Routes>
        
+       
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/login" element={<LogInPage />} />
